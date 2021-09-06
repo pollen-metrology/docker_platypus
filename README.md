@@ -18,7 +18,7 @@
   - Create the docker-compose file
     ```
     echo -e " \
-    \nversion: \"3.3\" \
+    version: \"3.3\" \
     \nservices: \
     \n  platypus: \
     \n    image: pollenm/platypus_{CUSTOMER}:{PLATYPUS_VERSION} \
@@ -31,7 +31,7 @@
     \n      - ./data:/root/.local/share/Pollen Metrology/Platypus \
     \n      # Persist Config File (you must create the ./config/Platypus.ini file before generating a container) \
     \n      - ./config/Platypus.ini:/usr/share/Platypus/bin/Platypus.ini \
-    \n" > ~/Docker/platypus/platypus_{VERSION}/docker-compose.yaml"
+    \n" > ~/Docker/platypus/platypus_{VERSION}/docker-compose.yaml
     ```
   - Create the persistent data folder
     ```
