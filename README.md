@@ -2,7 +2,7 @@
 
 Here is an example of the docker-compose.yml file
 ```
-version: "3.9"
+version: "3.3"
 services:
   platypus:
     image: pollenm/platypus:3.102.0
