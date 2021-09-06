@@ -51,40 +51,40 @@
     ```
   - Create the config file 
     ```
-    echo -e " \
-    \n[settings]
-    \napplication-suffix=
-    \nhelp=OFF
-    \nversion=OFF
-    \n
-    \n[log]
-    \nverbose=ON
-    \nloglevel=debug
-    \nlogfile=
-    \nlogfile-no=OFF
-    \n 
-    \n[network]
-    \ninterface=0.0.0.0
-    \nport=8080
-    \n
-    \n[authentication]
-    \nauthentication-config-file=./Platypus.ini
-    \nactivated=true
-    \nldap=false
-    \nadmin.username=admin
-    \nadmin.password=admin
-    \nsession.timeout=30
-    \n
-    \n[ldap]
-    \nhost=ldap_server.your-domain.com
-    \nport=389
-    \nbind.dn.pattern="cn={0},ou=your-organisation,dc=your-domain,dc=com"
-    \n
-    \n[ldap_groups]
-    \napi = Api
-    \nlite = Lite
-    \nsmart = Smart
-    \n" > ~/Docker/platypus/platypus_{VERSION}/config/Platypus.ini
+    echo -e "\
+    [settings] \
+    \napplication-suffix= \
+    \nhelp=OFF \
+    \nversion=OFF \
+    \n \
+    \n[log] \
+    \nverbose=ON \
+    \nloglevel=debug \
+    \nlogfile= \
+    \nlogfile-no=OFF \
+    \n \
+    \n[network] \
+    \ninterface=0.0.0.0 \
+    \nport=8080 \
+    \n \
+    \n[authentication] \
+    \nauthentication-config-file=./Platypus.ini \
+    \nactivated=true \
+    \nldap=false \
+    \nadmin.username=admin \
+    \nadmin.password=admin \
+    \nsession.timeout=30 \
+    \n \
+    \n[ldap] \
+    \nhost=ldap_server.your-domain.com \
+    \nport=389 \
+    \nbind.dn.pattern=\"cn={0},ou=your-organisation,dc=your-domain,dc=com\" \
+    \n \
+    \n[ldap_groups] \
+    \napi = Api \
+    \nlite = Lite \
+    \nsmart = Smart \
+    " > ~/Docker/platypus/platypus_{VERSION}/config/Platypus.ini
     ```  
   - Login to the platypus registry (replace ${DOCKER_USER} by your user login
   ```
