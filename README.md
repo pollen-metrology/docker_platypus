@@ -1,7 +1,7 @@
 # Prepare a linux server
   - Install docker and docker-compose
     ```
-    sudo apt-get install -y docker.io docker-compose
+    sudo apt-get update && sudo apt-get install -y docker.io docker-compose
     ```
   - Allow user to use docker : 
     ```
