@@ -17,7 +17,7 @@
     ```
   - Create the docker-compose file
     ```
-    echo -e " \
+    echo -e "\
     version: \"3.3\" \
     \nservices: \
     \n  platypus: \
