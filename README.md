@@ -39,10 +39,10 @@
     ```
   - Create the licence file to the data folder (change {SERVER_URL} value)
     ```
-    echo -e " \
-    \nSERVER {SERVER_URL} ANY 8091
-    \nVENDOR POLLEN
-    \nUSE_SERVER
+    echo -e "\
+    SERVER {SERVER_URL} ANY 8091 \
+    \nVENDOR POLLEN \
+    \nUSE_SERVER \
     "> ~/Docker/platypus/platypus_{VERSION}/data/floating_license.lic
     ```
   - Create the config folder 
