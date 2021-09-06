@@ -23,7 +23,7 @@
     \n  platypus: \
     \n    image: pollenm/platypus_{CUSTOMER}:{PLATYPUS_VERSION} \
     \n      container_name: {CONTAINER_NAME} \
-    \n    restart: always \ 
+    \n    restart: always \
     \n    ports: \
     \n      - \"8081:8080\" \
     \n    volumes: \
