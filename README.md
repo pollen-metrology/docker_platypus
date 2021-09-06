@@ -3,9 +3,13 @@
     ```
     sudo apt-get update && sudo apt-get install -y docker.io docker-compose
     ```
-  - Allow user to use docker : 
+  - Allow user to use docker (replaces {USER} with the user who will generate the container) : 
     ```
-    sudo usermod -a -G docker USER
+    sudo usermod -a -G docker {USER}
+    ```
+  - Connect the user who will generate the container 
+    ```
+    su {USER}
     ```
   - Create a platypus folder (change {VERSION} value)
     ```
