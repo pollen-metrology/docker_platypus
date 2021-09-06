@@ -4,16 +4,21 @@
     sudo apt-get install -y docker.io docker-compose
     ```
   - Allow user to use docker : 
+    ```
     sudo usermod -a -G docker USER
-  - Create a platypus folder
-    mkdir -p ~/Docker/platypus/platypus_VERSION
+    ```
+  - Create a platypus folder (change {VERSION} value)
+    ```
+    mkdir -p ~/Docker/platypus/platypus_{VERSION}
+    ```
   - Create the docker-compose file
+    ```
     echo -e " \
     \nversion: \"3.3\" \
     \nservices: \
     \n  platypus: \
-    \n    image: pollenm/platypus_albireo:3.107.1 \
-    \n      container_name: platypus_albireo_3_107.1 \
+    \n    image: pollenm/platypus_{CUSTOMER}:{PLATYPUS_VERSION} \
+    \n      container_name: {CONTAINER_NAME} \
     \n    restart: always \ 
     \n    ports: \
     \n      - \"8081:8080\" \
@@ -22,14 +27,70 @@
     \n      - ./data:/root/.local/share/Pollen Metrology/Platypus \
     \n      # Persist Config File (you must create the ./config/Platypus.ini file before generating a container) \
     \n      - ./config/Platypus.ini:/usr/share/Platypus/bin/Platypus.ini \
-    \n" > ~/Docker/platypus/platypus_VERSION/docker-compose.yaml"
-  - Create the data folder
-    mkdir -p ~/Docker/platypus/platypus_VERSION/data
-  - Create the licence file to data folder
+    \n" > ~/Docker/platypus/platypus_{VERSION}/docker-compose.yaml"
+    ```
+  - Create the persistent data folder
+    ```
+    mkdir -p ~/Docker/platypus/platypus_{VERSION}/data
+    ```
+  - Create the licence file to the data folder (change {SERVER_URL} value)
+    ```
     echo -e " \
-    
-    "> ~/Docker/platypus/platypus_VERSION/data/floating_license.lic
-  
+    \nSERVER {SERVER_URL} ANY 8091
+    \nVENDOR POLLEN
+    \nUSE_SERVER
+    "> ~/Docker/platypus/platypus_{VERSION}/data/floating_license.lic
+    ```
+  - Create the config folder 
+    ```
+    mkdir -p ~/Docker/platypus/platypus_{VERSION}/config
+    ```
+  - Create the config file 
+    ```
+    echo -e " \
+    \n[settings]
+    \napplication-suffix=
+    \nhelp=OFF
+    \nversion=OFF
+    \n
+    \n[log]
+    \nverbose=ON
+    \nloglevel=debug
+    \nlogfile=
+    \nlogfile-no=OFF
+    \n 
+    \n[network]
+    \ninterface=0.0.0.0
+    \nport=8080
+    \n
+    \n[authentication]
+    \nauthentication-config-file=./Platypus.ini
+    \nactivated=true
+    \nldap=false
+    \nadmin.username=admin
+    \nadmin.password=admin
+    \nsession.timeout=30
+    \n
+    \n[ldap]
+    \nhost=ldap_server.your-domain.com
+    \nport=389
+    \nbind.dn.pattern="cn={0},ou=your-organisation,dc=your-domain,dc=com"
+    \n
+    \n[ldap_groups]
+    \napi = Api
+    \nlite = Lite
+    \nsmart = Smart
+    \n" > ~/Docker/platypus/platypus_{VERSION}/config/Platypus.ini
+    ```  
+  - Login to the platypus registry (replace ${DOCKER_USER} by your user login
+  ```
+  docker login -u ${DOCKER_USER} https://index.docker.io/v2/
+  ```
+  - Start the container
+  ```
+  cd ~/Docker/platypus/platypus_{VERSION}
+  docker-compose up -d
+  ```
 
 # docker_platypus
 
