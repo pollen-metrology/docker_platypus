@@ -1,6 +1,8 @@
 # Prepare a linux server
   - Install docker and docker-compose
+    ```
     sudo apt-get install -y docker.io docker-compose
+    ```
   - Allow user to use docker : 
     sudo usermod -a -G docker USER
   - Create a platypus folder
