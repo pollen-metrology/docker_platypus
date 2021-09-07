@@ -4,12 +4,17 @@
     sudo apt-get update && sudo apt-get install -y docker.io docker-compose
     ```
   - Set some variables
+    * POLLEN_USER: Used to run the docker container & owner of configuration files and database
+    * VERSION: Version on Smart 3
+    * CONFIGURATION: Delivered configuration
+    * CONTAINER_NAME: Name of the container that runs Smart 3
+    * LICENSE_SERVER: IP address of the licence server
     ```shell
     export POLLEN_USER=pollen
     export VERSION=3.102.0
     export CONFIGURATION=Customer
     export CONTAINER_NAME=pollen_smart_$VERSION
-    export LIC_SERVER_URL=127.0.0.1
+    export LICENSE_SERVER=127.0.0.1
     ```
   - Allow user to use docker :
     ```shell
@@ -50,7 +55,7 @@
   - Create the licence file to the data folder
     ```shell
     echo -e "\
-    SERVER $LIC_SERVER_URL ANY 8091 \
+    SERVER $LICENSE_SERVER ANY 8091 \
     \nVENDOR POLLEN \
     \nUSE_SERVER \
     "> ~/Docker/platypus/data/floating_license.lic
@@ -59,7 +64,7 @@
     ```shell
     mkdir -p ~/Docker/platypus/config
     ```
-  - Create the config file 
+  - Create the config file (updated version adapted from default)
     ```shell
     echo -e "\
     [settings] \
@@ -102,7 +107,7 @@
     ```
   - If you don't have access to the registry, load the provided image
     ```shell
-    docker load -i platypus_$CONFIGURATION-$VERSION.tar
+    docker load -i platypus_$CONFIGURATION-$VERSION-docker.tar
     ```
   - Start the container
     ```shell
