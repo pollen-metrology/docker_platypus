@@ -3,54 +3,64 @@
     ```
     sudo apt-get update && sudo apt-get install -y docker.io docker-compose
     ```
-  - Allow user to use docker (replaces {USER} with the user who will generate the container) : 
+  - Set some variables
+    ```shell
+    export POLLEN_USER=pollen
+    export VERSION=3.102.0
+    export CONFIGURATION=Customer
+    export CONTAINER_NAME=pollen_smart_$VERSION
+    export LIC_SERVER_URL=127.0.0.1
     ```
-    sudo usermod -a -G docker {USER}
+  - Allow user to use docker :
+    ```shell
+    sudo usermod -a -G docker $POLLEN_USER
     ```
   - Connect the user who will generate the container 
+    ```shell
+    su $POLLEN_USER
     ```
-    su {USER}
-    ```
-  - Create a platypus folder (change {VERSION} value)
-    ```
-    mkdir -p ~/Docker/platypus/platypus_{VERSION}
+  - Create a platypus folder
+    ```shell
+    mkdir -p ~/Docker/platypus
     ```
   - Create the docker-compose file
-    ```
+    ```shell
     echo -e "\
     version: \"3.3\" \
     \nservices: \
     \n  platypus: \
-    \n    image: pollenm/platypus_{CUSTOMER}:{PLATYPUS_VERSION} \
-    \n      container_name: {CONTAINER_NAME} \
+    \n    image: pollenm/platypus_$CONFIGURATION:$VERSION \
+    \n      container_name: $CONTAINER_NAME \
     \n    restart: always \
     \n    ports: \
-    \n      - \"8081:8080\" \
+    \n      - \"8080:8080\" \
     \n    volumes: \
     \n      # Persist DataBase and Licences \
     \n      - ./data:/root/.local/share/Pollen Metrology/Platypus \
+    \n      - ./models:/root/.local/share/Pollen Metrology/Models \
     \n      # Persist Config File (you must create the ./config/Platypus.ini file before generating a container) \
     \n      - ./config/Platypus.ini:/usr/share/Platypus/bin/Platypus.ini \
-    \n" > ~/Docker/platypus/platypus_{VERSION}/docker-compose.yaml
+    \n" > ~/Docker/platypus/docker-compose.yaml
     ```
   - Create the persistent data folder
+    ```shell
+    mkdir -p ~/Docker/platypus/data
+    mkdir -p ~/Docker/platypus/models
     ```
-    mkdir -p ~/Docker/platypus/platypus_{VERSION}/data
-    ```
-  - Create the licence file to the data folder (change {SERVER_URL} value)
-    ```
+  - Create the licence file to the data folder
+    ```shell
     echo -e "\
-    SERVER {SERVER_URL} ANY 8091 \
+    SERVER $LIC_SERVER_URL ANY 8091 \
     \nVENDOR POLLEN \
     \nUSE_SERVER \
-    "> ~/Docker/platypus/platypus_{VERSION}/data/floating_license.lic
+    "> ~/Docker/platypus/data/floating_license.lic
     ```
   - Create the config folder 
-    ```
-    mkdir -p ~/Docker/platypus/platypus_{VERSION}/config
+    ```shell
+    mkdir -p ~/Docker/platypus/config
     ```
   - Create the config file 
-    ```
+    ```shell
     echo -e "\
     [settings] \
     \napplication-suffix= \
@@ -84,22 +94,26 @@
     \napi = Api \
     \nlite = Lite \
     \nsmart = Smart \
-    " > ~/Docker/platypus/platypus_{VERSION}/config/Platypus.ini
+    " > ~/Docker/platypus/config/Platypus.ini
     ```  
-  - Login to the platypus registry (replace ${DOCKER_USER} by your user login
-  ```
-  docker login -u ${DOCKER_USER} https://index.docker.io/v2/
-  ```
+  - If you are granted access, log in to the platypus registry with the provided DOCKER_USER 
+    ```shell
+    docker login -u {DOCKER_USER} https://index.docker.io/v2/
+    ```
+  - If you don't have access to the registry, load the provided image
+    ```shell
+    docker load -i platypus_$CONFIGURATION-$VERSION.tar
+    ```
   - Start the container
-  ```
-  cd ~/Docker/platypus/platypus_{VERSION}
-  docker-compose up -d
-  ```
+    ```shell
+    cd ~/Docker/platypus
+    docker-compose up -d
+    ```
 
 # Sample config files
 
   Here is an example of the docker-compose.yml file
-  ```
+  ```yml
   version: "3.3"
   services:
     platypus:
@@ -115,7 +129,7 @@
   ```
 
   Here is the default config file (Platypus.ini)
-  ```
+  ```ini
   [settings]
   application-suffix=
   help=OFF
@@ -149,13 +163,17 @@
   lite = Lite
   smart = Smart
   ```
+
+# Hint
+
+* You can see the logs with the command `docker-compose logs -f`
   
 # Some known issues
-  - If you are using wsl and the container time is not up to date. You can force the time update with this command in the wsl console :
-  ```
+  - If you are using wsl and the container time is not up-to-date. You can force the time update with this command in the wsl console :
+  ```shell
   sudo hwclock -s
   ```
-  - If you using wsl and ubuntu 18.04, you cant' login docker witout install "pass" library
-  ```
+  - If you using wsl and ubuntu 18.04, you can't log in docker without install "pass" library
+  ```shell
   sudo apt-get install pass
   ```
