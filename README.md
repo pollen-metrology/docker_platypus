@@ -44,7 +44,7 @@
     \n      - ./data:/root/.local/share/Pollen Metrology/Platypus \
     \n      - ./models:/root/.local/share/Pollen Metrology/Models \
     \n      # Persist Config File (you must create the ./config/Platypus.ini file before generating a container) \
-    \n      - ./config/Platypus.ini:/usr/share/Platypus/bin/Platypus.ini \
+    \n      - ./config/Platypus.ini:/usr/local/bin/platypus/bin/Platypus.ini \
     \n" > ~/Docker/platypus/docker-compose.yaml
     ```
   - Create the persistent data folder
