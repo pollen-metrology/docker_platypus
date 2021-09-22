@@ -45,6 +45,8 @@
     \n      - ./models:/root/.local/share/Pollen Metrology/Models \
     \n      # Persist Config File (you must create the ./config/Platypus.ini file before generating a container) \
     \n      - ./config/Platypus.ini:/usr/local/bin/platypus/bin/Platypus.ini \
+    \n      - "/etc/timezone:/etc/timezone:ro" \
+    \n      - "/etc/localtime:/etc/localtime:ro" \
     \n" > ~/Docker/platypus/docker-compose.yaml
     ```
   - Create the persistent data folder
@@ -131,6 +133,8 @@
         - ./data:/root/.local/share/Pollen Metrology/Platypus
         # Persist Config File (you must create the ./config/Platypus.ini file before generating a container)
         - ./config/Platypus.ini:/usr/share/Platypus/bin/Platypus.ini
+        - "/etc/timezone:/etc/timezone:ro"
+        - "/etc/localtime:/etc/localtime:ro"        
   ```
 
   Here is the default config file (Platypus.ini)
