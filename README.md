@@ -12,7 +12,7 @@
     ```shell
     export POLLEN_USER=pollen
     export VERSION=3.102.0
-    export CONFIGURATION=Customer
+    export CONFIGURATION=customer
     export CONTAINER_NAME=pollen_smart_$VERSION
     export LICENSE_SERVER=127.0.0.1
     ```
@@ -35,16 +35,18 @@
     \nservices: \
     \n  platypus: \
     \n    image: pollenm/platypus_$CONFIGURATION:$VERSION \
-    \n      container_name: $CONTAINER_NAME \
+    \n    container_name: $CONTAINER_NAME \
     \n    restart: always \
     \n    ports: \
     \n      - \"8080:8080\" \
     \n    volumes: \
-    \n      # Persist DataBase and Licences \
+    \n      # DL models \
     \n      - ./data:/root/.local/share/Pollen Metrology/Platypus \
+    \n      # DataBase and Licences \
     \n      - ./models:/root/.local/share/Pollen Metrology/Models \
-    \n      # Persist Config File (you must create the ./config/Platypus.ini file before generating a container) \
+    \n      # Config File (you must create the ./config/Platypus.ini file before generating a container) \
     \n      - ./config/Platypus.ini:/usr/local/bin/platypus/bin/Platypus.ini \
+    \n      # Time sync (opt.) \
     \n      - \"/etc/timezone:/etc/timezone:ro\" \
     \n      - \"/etc/localtime:/etc/localtime:ro\" \
     \n" > ~/Docker/platypus/docker-compose.yaml
@@ -117,6 +119,30 @@
     docker-compose up -d
     ```
 
+# Update server
+
+Example: from 3.107.2 to 3.108.0
+
+* In your docker-compose.yml file, just change the line with the new release number
+
+```diff
+-      image: pollenm/platypus_customer:3.107.2
++      image: pollenm/platypus_customer:3.108.0
+```
+
+* If you don't have access to the registry, first load the provided image, else directly go to next step
+
+```shell
+  docker load -i platypus_customer-3.108.0-docker.tar
+```
+
+* Restart the container :
+
+```shell
+docker-compose down
+docker-compose up -d
+```
+
 # Sample config files
 
   Here is an example of the docker-compose.yml file
@@ -129,10 +155,13 @@
       ports:
         - "8080:8080"
       volumes:
-        # Persist DataBase and Licences
+        # DL models
+        - ./models:/root/.local/share/Pollen Metrology/Models
+        # DataBase and Licences
         - ./data:/root/.local/share/Pollen Metrology/Platypus
-        # Persist Config File (you must create the ./config/Platypus.ini file before generating a container)
+        # Config File (you must create the ./config/Platypus.ini file before generating a container)
         - ./config/Platypus.ini:/usr/share/Platypus/bin/Platypus.ini
+        # Time sync (opt.)
         - "/etc/timezone:/etc/timezone:ro"
         - "/etc/localtime:/etc/localtime:ro"        
   ```
